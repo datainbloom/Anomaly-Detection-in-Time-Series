@@ -3,210 +3,252 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aysel Aygül — Data Scientist</title>
-<meta name="description" content="Aysel Aygül | Zaman serisi anomali tespiti ve makine öğrenmesi üzerine çalışan veri bilimci.">
+<title>Aysel Aygül — Sinyal Günlüğü</title>
+<meta name="description" content="Aysel Aygül | Zaman serisi anomali tespiti üzerine çalışan veri bilimci — kişisel sinyal günlüğü.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0b0e14;
-    --bg-soft:#11151f;
-    --card:#151a26;
-    --border:#232a3a;
-    --text:#e8ebf2;
-    --muted:#8b93a7;
-    --accent:#5eead4;
-    --accent2:#a78bfa;
-    --mono: 'Space Grotesk', 'Inter', sans-serif;
+    --paper:      #ece2cb;
+    --paper-card: #f6efdc;
+    --ink:        #262019;
+    --ink-soft:   #665e4d;
+    --line:       #c7b995;
+    --trace:      #2f4a5e;
+    --signal:     #a8402a;
+    --mono: 'IBM Plex Mono', 'Courier New', monospace;
+    --serif: 'Lora', 'Iowan Old Style', Georgia, serif;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
     margin:0;
-    background:var(--bg);
-    color:var(--text);
-    font-family:'Inter', system-ui, sans-serif;
-    line-height:1.6;
-    overflow-x:hidden;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--serif);
+    font-size:17px;
+    line-height:1.65;
   }
   a{color:inherit;}
 
-  /* background grid + glow */
+  /* graph-paper texture, fixed to viewport */
   .bg-decor{
     position:fixed; inset:0; z-index:-1; pointer-events:none;
-    background:
-      radial-gradient(650px 400px at 85% -5%, rgba(94,234,212,0.14), transparent 60%),
-      radial-gradient(600px 400px at 0% 10%, rgba(167,139,250,0.12), transparent 60%),
-      linear-gradient(var(--bg), var(--bg));
-  }
-  .bg-decor::before{
-    content:"";
-    position:absolute; inset:0;
     background-image:
-      linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
-    background-size:42px 42px;
-    mask-image: radial-gradient(circle at 50% 0%, rgba(0,0,0,0.9), transparent 70%);
+      linear-gradient(rgba(38,32,25,0.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(38,32,25,0.055) 1px, transparent 1px),
+      linear-gradient(rgba(38,32,25,0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(38,32,25,0.12) 1px, transparent 1px);
+    background-size:8px 8px, 8px 8px, 80px 80px, 80px 80px;
   }
 
-  .wrap{max-width:920px; margin:0 auto; padding-inline:24px;}
+  .wrap{max-width:760px; margin:0 auto; padding-inline:24px;}
 
-  header.nav{
+  header.panel{
     position:sticky; top:0; z-index:50;
-    backdrop-filter: blur(10px);
-    background:rgba(11,14,20,0.7);
-    border-bottom:1px solid var(--border);
+    background:var(--paper);
+    border-bottom:2px solid var(--ink);
   }
-  .nav-inner{
+  .panel-inner{
     display:flex; align-items:center; justify-content:space-between;
     padding-block:14px;
+    font-family:var(--mono);
   }
-  .logo{
-    font-family:var(--mono); font-weight:700; font-size:1.05rem;
-    letter-spacing:0.02em;
-    display:flex; align-items:center; gap:8px;
-  }
-  .logo .dot{width:8px;height:8px;border-radius:50%;background:var(--accent); box-shadow:0 0 12px var(--accent);}
-  nav.links{display:flex; gap:26px; font-size:0.92rem;}
-  nav.links a{color:var(--muted); text-decoration:none; transition:color .15s;}
-  nav.links a:hover{color:var(--text);}
-  .nav-toggle{display:none; background:none; border:1px solid var(--border); color:var(--text); border-radius:8px; padding:6px 10px; font-size:1rem;}
-
-  section{padding-block:88px; border-bottom:1px solid var(--border);}
-  section:last-of-type{border-bottom:none;}
-
-  .eyebrow{
-    font-family:var(--mono); font-size:0.8rem; text-transform:uppercase; letter-spacing:0.12em;
-    color:var(--accent); margin:0 0 14px;
+  .panel-id{
+    font-weight:700; font-size:0.95rem; letter-spacing:0.02em;
     display:flex; align-items:center; gap:10px;
   }
-  .eyebrow::before{content:""; width:22px; height:1px; background:var(--accent); display:inline-block;}
+  .led{
+    width:9px; height:9px; border-radius:50%;
+    background:var(--signal);
+    box-shadow:0 0 0 2px var(--paper), 0 0 0 3px var(--ink);
+    flex-shrink:0;
+  }
+  nav.links{display:flex; gap:24px; font-size:0.78rem;}
+  nav.links a{
+    text-decoration:none; color:var(--ink-soft);
+    text-transform:uppercase; letter-spacing:0.08em;
+    border-bottom:1px solid transparent;
+    padding-bottom:2px;
+    transition:color .15s, border-color .15s;
+  }
+  nav.links a:hover{color:var(--ink); border-color:var(--signal);}
 
-  h1,h2,h3{font-family:var(--mono); font-weight:600; margin:0;}
+  section{padding-block:64px; border-bottom:1px dashed var(--line);}
+  section:last-of-type{border-bottom:none;}
+
+  .tag{
+    font-family:var(--mono); font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em;
+    color:var(--signal); margin:0 0 16px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .tag::before{content:"§"; opacity:0.7;}
+
+  h1,h2,h3{font-family:var(--mono); font-weight:600; margin:0; text-wrap:balance;}
 
   /* HERO */
-  .hero{padding-top:96px; padding-bottom:96px;}
+  .hero{padding-top:56px; padding-bottom:40px;}
   .hero h1{
-    font-size:clamp(2.1rem, 5.5vw, 3.4rem);
-    line-height:1.12;
-    font-weight:700;
-    margin-bottom:18px;
+    font-size:clamp(1.9rem, 6vw, 2.7rem);
+    line-height:1.28;
+    letter-spacing:-0.01em;
+    margin-bottom:20px;
   }
-  .hero h1 .grad{
-    background:linear-gradient(90deg, var(--accent), var(--accent2));
-    -webkit-background-clip:text; background-clip:text; color:transparent;
+  .hero h1 em{
+    font-style:normal; color:var(--signal);
   }
-  .hero p.lead{color:var(--muted); font-size:1.08rem; max-width:560px; margin-bottom:34px;}
-  .cta-row{display:flex; gap:14px; flex-wrap:wrap;}
-  .btn{
-    font-family:'Inter'; font-weight:600; font-size:0.92rem;
-    padding:12px 22px; border-radius:10px; text-decoration:none;
-    transition:transform .15s, box-shadow .15s;
-    display:inline-flex; align-items:center; gap:8px;
+  .hero p.lead{
+    font-family:var(--serif); font-size:1.15rem; color:var(--ink-soft);
+    max-width:520px; margin-bottom:8px;
   }
-  .btn-primary{
-    background:linear-gradient(90deg, var(--accent), var(--accent2)); color:#0b0e14;
-  }
-  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 24px -8px rgba(94,234,212,0.5);}
-  .btn-ghost{
-    border:1px solid var(--border); color:var(--text); background:var(--card);
-  }
-  .btn-ghost:hover{transform:translateY(-2px); border-color:var(--accent2);}
+  .hero p.lead em{font-style:italic; color:var(--ink);}
 
-  .metrics{display:flex; gap:40px; margin-top:56px; flex-wrap:wrap;}
-  .metric b{display:block; font-family:var(--mono); font-size:1.6rem; color:var(--text);}
-  .metric span{font-size:0.82rem; color:var(--muted);}
+  /* chart */
+  .chart-box{
+    margin-top:36px;
+    background:var(--paper-card);
+    border:2px solid var(--ink);
+    padding:18px 18px 8px;
+    position:relative;
+  }
+  .chart-box .readout{
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-family:var(--mono); font-size:0.7rem; color:var(--ink-soft);
+    letter-spacing:0.04em; margin-bottom:6px; text-transform:uppercase;
+  }
+  .chart-box svg{display:block; width:100%; height:auto;}
+  .chart-caption{
+    font-family:var(--mono); font-size:0.72rem; color:var(--ink-soft);
+    display:flex; justify-content:space-between; padding-top:8px; letter-spacing:0.03em;
+  }
+  .chart-caption b{color:var(--signal);}
+
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap; margin-top:32px;}
+  .btn{
+    font-family:var(--mono); font-weight:600; font-size:0.82rem;
+    letter-spacing:0.03em;
+    padding:12px 20px;
+    text-decoration:none;
+    border:2px solid var(--ink);
+    display:inline-flex; align-items:center; gap:8px;
+    transition:background .15s, color .15s, transform .1s;
+  }
+  .btn-primary{background:var(--ink); color:var(--paper-card);}
+  .btn-primary:hover{background:var(--signal); border-color:var(--signal); transform:translateY(-1px);}
+  .btn-ghost{background:transparent; color:var(--ink);}
+  .btn-ghost:hover{background:var(--ink); color:var(--paper-card);}
 
   /* ABOUT */
-  .about-grid{display:grid; grid-template-columns:1.3fr 1fr; gap:48px; align-items:start;}
-  .about-grid p{color:var(--muted); margin:0 0 14px;}
-  .about-card{
-    background:var(--card); border:1px solid var(--border); border-radius:14px; padding:22px;
+  .about-grid{display:grid; grid-template-columns:1.3fr 1fr; gap:40px; align-items:start;}
+  .about-grid p{margin:0 0 14px;}
+  .about-grid p:last-child{margin-bottom:0;}
+  .logsheet{
+    background:var(--paper-card); border:2px solid var(--ink); padding:20px;
   }
-  .about-card h3{font-size:0.95rem; margin-bottom:14px; color:var(--text);}
-  .about-card ul{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px;}
-  .about-card li{font-size:0.88rem; color:var(--muted); display:flex; justify-content:space-between; border-bottom:1px dashed var(--border); padding-bottom:8px;}
-  .about-card li:last-child{border-bottom:none; padding-bottom:0;}
-  .about-card li b{color:var(--text); font-weight:500;}
+  .logsheet h3{
+    font-size:0.78rem; text-transform:uppercase; letter-spacing:0.1em;
+    margin-bottom:14px; border-bottom:1px solid var(--line); padding-bottom:10px;
+  }
+  .logsheet dl{margin:0; display:flex; flex-direction:column; gap:11px;}
+  .logsheet div.row{display:flex; justify-content:space-between; gap:12px; font-size:0.86rem;}
+  .logsheet dt{font-family:var(--mono); color:var(--ink-soft); font-size:0.76rem; text-transform:uppercase; letter-spacing:0.03em; flex-shrink:0;}
+  .logsheet dd{margin:0; text-align:right; font-family:var(--serif);}
 
-  /* SKILLS */
-  .skill-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
-  .skill-card{
-    background:var(--card); border:1px solid var(--border); border-radius:14px; padding:22px;
-    transition:border-color .15s, transform .15s;
+  /* SKILLS as instrument list */
+  .instrument-list{display:flex; flex-direction:column;}
+  .instrument{
+    display:grid; grid-template-columns:28px 200px 1fr; gap:18px; align-items:baseline;
+    padding-block:16px; border-top:1px solid var(--line);
   }
-  .skill-card:hover{border-color:var(--accent2); transform:translateY(-3px);}
-  .skill-card .icon{
-    width:38px; height:38px; border-radius:10px; margin-bottom:14px;
-    display:flex; align-items:center; justify-content:center; font-size:1.1rem;
-    background:linear-gradient(135deg, rgba(94,234,212,0.18), rgba(167,139,250,0.18));
-    border:1px solid var(--border);
+  .instrument:last-child{border-bottom:1px solid var(--line);}
+  .instrument .dial{
+    width:14px; height:14px; border:2px solid var(--ink);
+    position:relative; flex-shrink:0; align-self:center;
   }
-  .skill-card h3{font-size:1rem; margin-bottom:8px;}
-  .skill-card p{color:var(--muted); font-size:0.87rem; margin:0;}
-  .tag-row{display:flex; gap:8px; flex-wrap:wrap; margin-top:36px;}
-  .tag{
-    font-family:var(--mono); font-size:0.78rem; color:var(--muted);
-    border:1px solid var(--border); border-radius:999px; padding:6px 14px;
-    background:var(--bg-soft);
+  .instrument .dial::after{
+    content:""; position:absolute; inset:2px; background:var(--signal);
+  }
+  .instrument h3{font-size:0.92rem; letter-spacing:-0.01em;}
+  .instrument p{margin:0; color:var(--ink-soft); font-size:0.92rem;}
+  @media (max-width:640px){
+    .instrument{grid-template-columns:18px 1fr; row-gap:6px;}
+    .instrument p{grid-column:2;}
   }
 
-  /* WORK */
-  .work-list{display:flex; flex-direction:column; gap:16px;}
-  .work-item{
-    background:var(--card); border:1px solid var(--border); border-radius:14px;
-    padding:24px; display:flex; justify-content:space-between; gap:20px; align-items:flex-start;
-    text-decoration:none; transition:border-color .15s, transform .15s;
+  .stack-tags{display:flex; gap:10px; flex-wrap:wrap; margin-top:32px;}
+  .stack-tags span{
+    font-family:var(--mono); font-size:0.72rem; color:var(--ink);
+    border:1px solid var(--ink); padding:5px 12px; background:var(--paper-card);
   }
-  .work-item:hover{border-color:var(--accent); transform:translateX(4px);}
-  .work-item .work-text h3{font-size:1.05rem; margin-bottom:6px; color:var(--text);}
-  .work-item .work-text p{color:var(--muted); font-size:0.9rem; margin:0;}
-  .work-item .arrow{font-family:var(--mono); color:var(--accent); font-size:1.2rem; flex-shrink:0;}
-  .work-badge{
+
+  /* WORK / case file */
+  .case-file{
+    border:2px solid var(--ink); background:var(--paper-card);
+    padding:0; text-decoration:none; display:block; color:var(--ink);
+    transition:background .15s;
+  }
+  .case-file:hover{background:#f0e6c9;}
+  .case-file-head{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:14px 20px; border-bottom:1px dashed var(--line);
     font-family:var(--mono); font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em;
-    color:var(--accent2); margin-bottom:8px; display:block;
+    color:var(--ink-soft);
+  }
+  .case-file-body{padding:22px 20px 24px;}
+  .case-file-body h3{font-size:1.1rem; margin-bottom:10px;}
+  .case-file-body p{margin:0; color:var(--ink-soft);}
+  .case-file-foot{
+    padding:12px 20px; font-family:var(--mono); font-size:0.78rem;
+    display:flex; align-items:center; gap:8px; color:var(--signal); font-weight:600;
   }
 
-  /* CONTACT */
-  .contact-box{
-    background:linear-gradient(135deg, rgba(94,234,212,0.08), rgba(167,139,250,0.08));
-    border:1px solid var(--border); border-radius:20px; padding:48px;
-    text-align:center;
+  /* CONTACT — stamped ticket */
+  .ticket{
+    border:2px solid var(--ink); background:var(--paper-card);
+    padding:40px 32px; text-align:center; position:relative;
   }
-  .contact-box h2{font-size:clamp(1.6rem,4vw,2.2rem); margin-bottom:16px;}
-  .contact-box p{color:var(--muted); max-width:480px; margin:0 auto 30px;}
-  .contact-links{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+  .ticket::before, .ticket::after{
+    content:""; position:absolute; width:16px; height:16px; border-radius:50%;
+    background:var(--paper); border:2px solid var(--ink); top:50%; transform:translateY(-50%);
+  }
+  .ticket::before{left:-9px;}
+  .ticket::after{right:-9px;}
+  .ticket h2{font-size:clamp(1.4rem,4vw,1.9rem); margin-bottom:14px;}
+  .ticket p{color:var(--ink-soft); max-width:440px; margin:0 auto 28px; font-family:var(--serif);}
+  .ticket-links{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
 
-  footer{padding:32px 0 48px; text-align:center; color:var(--muted); font-size:0.82rem;}
+  footer{
+    padding:28px 0 44px; text-align:center; color:var(--ink-soft);
+    font-family:var(--mono); font-size:0.72rem; letter-spacing:0.04em;
+  }
 
-  @media (max-width:760px){
+  @media (max-width:680px){
     nav.links{display:none;}
     .about-grid{grid-template-columns:1fr;}
-    .skill-grid{grid-template-columns:1fr 1fr;}
-    .work-item{flex-direction:column; gap:10px;}
-    .contact-box{padding:32px 20px;}
-  }
-  @media (max-width:480px){
-    .skill-grid{grid-template-columns:1fr;}
-    .metrics{gap:28px;}
+    .ticket{padding:32px 20px;}
   }
 
-  [data-reveal]{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease;}
-  [data-reveal].in{opacity:1; transform:translateY(0);}
+  @media (prefers-reduced-motion: no-preference){
+    .trace-path{
+      stroke-dasharray:600; stroke-dashoffset:600;
+      animation:draw 1.8s ease forwards;
+    }
+    @keyframes draw{to{stroke-dashoffset:0;}}
+  }
 </style>
 </head>
 <body>
 
 <div class="bg-decor"></div>
 
-<header class="nav">
-  <div class="wrap nav-inner">
-    <div class="logo"><span class="dot"></span> Aysel Aygül</div>
+<header class="panel">
+  <div class="wrap panel-inner">
+    <div class="panel-id"><span class="led"></span> AYSEL AYGÜL / LOG-01</div>
     <nav class="links">
       <a href="#hakkimda">Hakkımda</a>
-      <a href="#uzmanlik">Uzmanlık</a>
-      <a href="#calismalar">Çalışmalar</a>
+      <a href="#araclar">Araçlar</a>
+      <a href="#dosya">Dosya</a>
       <a href="#iletisim">İletişim</a>
     </nav>
   </div>
@@ -215,126 +257,131 @@
 <main class="wrap">
 
   <section class="hero">
-    <p class="eyebrow">Data Scientist · ML Engineer</p>
-    <h1>Verinin içindeki<br><span class="grad">anormal sinyali</span> yakalarım.</h1>
+    <p class="tag">Data Scientist — Zaman Serisi</p>
+    <h1>Grafikteki her sapma<br>bir <em>hikâye</em> anlatır.</h1>
     <p class="lead">
-      Zaman serisi verilerinden anlam çıkarıp, kritik anomalileri gerçek zamanlı ve
-      güvenilir şekilde tespit eden sistemler tasarlıyorum. İstatistiksel yöntemlerle
-      derin öğrenmeyi birleştirip, veriyi harekete geçirilebilir içgörüye dönüştürüyorum.
+      Ben Aysel. Zaman serisi verisini okuyup içindeki <em>anormal</em> sinyali
+      bulmakla ilgileniyorum — sensör, işlem kaydı veya sistem metriği olsun,
+      "normal" olanı öğrenen ve ondan sapanı zamanında haber veren modeller kuruyorum.
     </p>
-    <div class="cta-row">
-      <a href="#iletisim" class="btn btn-primary">İletişime Geç →</a>
-      <a href="#calismalar" class="btn btn-ghost">Çalışmalarımı Gör</a>
+
+    <div class="chart-box">
+      <div class="readout"><span>KAYIT NO. TS-2026-0910</span><span>ÖRNEK ARALIĞI 5 DK</span></div>
+      <svg viewBox="0 0 640 160" preserveAspectRatio="none" role="img" aria-label="Zaman serisi grafiğinde 62. noktada işaretlenmiş bir anomali sapması">
+        <line x1="0" y1="40" x2="640" y2="40" stroke="#c7b995" stroke-width="1"/>
+        <line x1="0" y1="80" x2="640" y2="80" stroke="#c7b995" stroke-width="1"/>
+        <line x1="0" y1="120" x2="640" y2="120" stroke="#c7b995" stroke-width="1"/>
+        <path class="trace-path" d="M0,90 L40,86 L80,92 L120,84 L160,88 L200,80 L240,86 L280,78 L320,82 L360,20 L380,140 L400,70 L440,84 L480,80 L520,86 L560,82 L600,88 L640,84"
+              fill="none" stroke="#2f4a5e" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="380" cy="140" r="5" fill="#a8402a"/>
+        <line x1="380" y1="140" x2="380" y2="158" stroke="#a8402a" stroke-width="1" stroke-dasharray="2 2"/>
+        <text x="386" y="156" font-family="IBM Plex Mono, monospace" font-size="10" fill="#a8402a" font-weight="600">σ = 4.8</text>
+      </svg>
+      <div class="chart-caption">
+        <span>t = 09:10 — 09:35</span>
+        <span><b>ANOMALİ</b> — beklenen aralığın dışında</span>
+      </div>
     </div>
-    <div class="metrics">
-      <div class="metric"><b>Zaman Serisi</b><span>Analiz &amp; Modelleme</span></div>
-      <div class="metric"><b>Anomali Tespiti</b><span>İstatistiksel &amp; ML tabanlı</span></div>
-      <div class="metric"><b>Python</b><span>Uçtan uca veri hattı</span></div>
+
+    <div class="cta-row">
+      <a href="#iletisim" class="btn btn-primary">İletişime Geç</a>
+      <a href="#dosya" class="btn btn-ghost">Dosyayı Aç</a>
     </div>
   </section>
 
-  <section id="hakkimda" data-reveal>
-    <p class="eyebrow">Hakkımda</p>
+  <section id="hakkimda">
+    <p class="tag">Hakkımda</p>
     <div class="about-grid">
       <div>
         <p>
-          Merhaba, ben Aysel. Zaman serisi verileri ve anomali tespiti üzerine çalışan bir
-          veri bilimciyim. İşim; sensör akışları, işlem kayıtları veya sistem metrikleri gibi
-          sürekli üretilen verilerde "normal" olanı öğrenip, ondan sapan sinyalleri erken
-          ve güvenilir şekilde yakalayan modeller kurmak.
+          Zaman serisi verileri ve anomali tespiti üzerine çalışan bir veri bilimciyim.
+          İşim; sürekli akan veride "normal" olanı öğrenip, ondan sapan sinyalleri
+          erken ve güvenilir şekilde yakalayan sistemler kurmak.
         </p>
         <p>
-          İstatistiksel yaklaşımlardan (STL ayrıştırma, hareketli istatistikler) derin öğrenme
-          tabanlı yöntemlere (LSTM otokodlayıcılar, Isolation Forest, Prophet) kadar geniş bir
-          araç setiyle çalışıyorum. Amacım her zaman aynı: karmaşık veriyi, üzerine karar
-          verilebilecek net bir sinyale indirmek.
+          İstatistiksel yaklaşımlardan (STL ayrıştırma, hareketli istatistikler) derin
+          öğrenmeye (LSTM otokodlayıcılar, Isolation Forest, Prophet) kadar geniş bir
+          araç setiyle çalışıyorum. Hedefim değişmiyor: karmaşık veriyi, üzerine karar
+          verilebilecek net bir okumaya indirmek.
         </p>
       </div>
-      <div class="about-card">
-        <h3>Kısaca</h3>
-        <ul>
-          <li>Odak <b>Zaman Serisi &amp; Anomali Tespiti</b></li>
-          <li>Araçlar <b>Python, pandas, PyTorch</b></li>
-          <li>Yaklaşım <b>İstatistik + ML</b></li>
-          <li>İletişim <b>aysel.aygul@icloud.com</b></li>
-        </ul>
+      <div class="logsheet">
+        <h3>Kayıt Özeti</h3>
+        <dl>
+          <div class="row"><dt>Odak</dt><dd>Zaman Serisi &amp; Anomali</dd></div>
+          <div class="row"><dt>Yaklaşım</dt><dd>İstatistik + ML</dd></div>
+          <div class="row"><dt>Diller</dt><dd>Python, SQL</dd></div>
+          <div class="row"><dt>İletişim</dt><dd>aysel.aygul@icloud.com</dd></div>
+        </dl>
       </div>
     </div>
   </section>
 
-  <section id="uzmanlik" data-reveal>
-    <p class="eyebrow">Uzmanlık Alanları</p>
-    <h2 style="font-size:1.8rem; margin-bottom:36px;">Neyle çalışıyorum</h2>
-    <div class="skill-grid">
-      <div class="skill-card">
-        <div class="icon">📈</div>
+  <section id="araclar">
+    <p class="tag">Çalışma Alanlarım</p>
+    <h2 style="font-size:1.4rem; margin-bottom:8px;">Panelde ne var</h2>
+    <p style="color:var(--ink-soft); margin:0 0 8px; max-width:520px;">Bir zaman serisi hattında baştan sona sorumlu olduğum katmanlar.</p>
+
+    <div class="instrument-list">
+      <div class="instrument">
+        <span class="dial"></span>
         <h3>Zaman Serisi Analizi</h3>
-        <p>Trend, sezonsallık ve döngü ayrıştırması; durağanlık testleri ve öngörü modelleri.</p>
+        <p>Trend, sezonsallık ve döngü ayrıştırması; durağanlık testleri, öngörü modelleri.</p>
       </div>
-      <div class="skill-card">
-        <div class="icon">🚨</div>
+      <div class="instrument">
+        <span class="dial"></span>
         <h3>Anomali Tespiti</h3>
-        <p>İstatistiksel eşikleme, Isolation Forest, otokodlayıcılar ve olasılıksal modellerle sapma tespiti.</p>
+        <p>İstatistiksel eşikleme, Isolation Forest, otokodlayıcılar ve olasılıksal modeller.</p>
       </div>
-      <div class="skill-card">
-        <div class="icon">🧠</div>
+      <div class="instrument">
+        <span class="dial"></span>
         <h3>Makine Öğrenmesi</h3>
-        <p>Denetimli/denetimsiz öğrenme, derin öğrenme mimarileri ve model değerlendirme.</p>
+        <p>Denetimli / denetimsiz öğrenme, derin öğrenme mimarileri, model değerlendirme.</p>
       </div>
-      <div class="skill-card">
-        <div class="icon">🛠️</div>
+      <div class="instrument">
+        <span class="dial"></span>
         <h3>Veri Mühendisliği</h3>
-        <p>Temiz, tekrarlanabilir veri hatları; ham sinyalden model girişine giden süreç tasarımı.</p>
+        <p>Temiz, tekrarlanabilir hatlar; ham sinyalden model girişine giden süreç tasarımı.</p>
       </div>
-      <div class="skill-card">
-        <div class="icon">📊</div>
-        <h3>Görselleştirme</h3>
-        <p>Karmaşık zaman serisi bulgularını, karar vericiler için anlaşılır grafiklere dönüştürme.</p>
-      </div>
-      <div class="skill-card">
-        <div class="icon">🔍</div>
+      <div class="instrument">
+        <span class="dial"></span>
         <h3>Kök Neden Analizi</h3>
-        <p>Tespit edilen anomalinin "neden" oluştuğunu anlamak için sistematik inceleme.</p>
+        <p>Tespit edilen sapmanın neden oluştuğunu anlamak için sistematik inceleme.</p>
       </div>
     </div>
-    <div class="tag-row">
-      <span class="tag">Python</span>
-      <span class="tag">pandas / numpy</span>
-      <span class="tag">PyTorch</span>
-      <span class="tag">scikit-learn</span>
-      <span class="tag">Prophet</span>
-      <span class="tag">SQL</span>
-      <span class="tag">Docker</span>
-      <span class="tag">Git</span>
+
+    <div class="stack-tags">
+      <span>Python</span><span>pandas / numpy</span><span>PyTorch</span>
+      <span>scikit-learn</span><span>Prophet</span><span>SQL</span><span>Docker</span><span>Git</span>
     </div>
   </section>
 
-  <section id="calismalar" data-reveal>
-    <p class="eyebrow">Çalışmalar</p>
-    <h2 style="font-size:1.8rem; margin-bottom:36px;">Öne çıkan proje</h2>
-    <div class="work-list">
-      <a class="work-item" href="https://github.com/codeinbloom34/anomaly-detection-in-time-series" target="_blank" rel="noopener">
-        <div class="work-text">
-          <span class="work-badge">Açık Kaynak · GitHub</span>
-          <h3>Anomaly Detection in Time Series</h3>
-          <p>Zaman serisi verilerinde anomali tespiti üzerine geliştirdiğim, istatistiksel ve
-             makine öğrenmesi tabanlı yaklaşımları bir araya getiren çalışma.</p>
-        </div>
-        <div class="arrow">→</div>
-      </a>
-    </div>
+  <section id="dosya">
+    <p class="tag">Dosya</p>
+    <h2 style="font-size:1.4rem; margin-bottom:20px;">Öne çıkan çalışma</h2>
+
+    <a class="case-file" href="https://github.com/codeinbloom34/anomaly-detection-in-time-series" target="_blank" rel="noopener">
+      <div class="case-file-head">
+        <span>Dosya No. TS-01</span>
+        <span>Açık Kaynak — GitHub</span>
+      </div>
+      <div class="case-file-body">
+        <h3>Anomaly Detection in Time Series</h3>
+        <p>Zaman serisi verilerinde anomali tespiti üzerine geliştirdiğim, istatistiksel
+           ve makine öğrenmesi tabanlı yaklaşımları bir araya getiren çalışma.</p>
+      </div>
+      <div class="case-file-foot">→ Depoyu görüntüle</div>
+    </a>
   </section>
 
-  <section id="iletisim" data-reveal style="border-bottom:none;">
-    <div class="contact-box">
+  <section id="iletisim" style="border-bottom:none;">
+    <div class="ticket">
       <h2>Birlikte çalışalım</h2>
-      <p>
-        Zaman serisi verinizde gizli kalan anomalileri birlikte ortaya çıkaralım.
-        Bir proje, iş birliği veya sadece bir merhaba için yazabilirsiniz.
-      </p>
-      <div class="contact-links">
-        <a class="btn btn-primary" href="mailto:aysel.aygul@icloud.com">✉ aysel.aygul@icloud.com</a>
-        <a class="btn btn-ghost" href="https://github.com/codeinbloom34" target="_blank" rel="noopener">GitHub</a>
+      <p>Zaman serisi verinizde gizli kalan anomalileri birlikte ortaya çıkaralım.
+         Bir proje, iş birliği ya da sadece bir merhaba için yazabilirsiniz.</p>
+      <div class="ticket-links">
+        <a class="btn btn-primary" href="mailto:aysel.aygul@icloud.com">aysel.aygul@icloud.com</a>
+        <a class="btn btn-ghost" href="https://github.com/codeinbloom34" target="_blank" rel="noopener">GitHub ↗</a>
       </div>
     </div>
   </section>
@@ -342,19 +389,11 @@
 </main>
 
 <footer>
-  © <span id="year"></span> Aysel Aygül — Data Scientist &amp; ML Engineer
+  © <span id="year"></span> AYSEL AYGÜL — DATA SCIENTIST / TIME SERIES LOG CLOSED
 </footer>
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
-
-  const revealEls = document.querySelectorAll('[data-reveal]');
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
-    });
-  }, {threshold:0.15});
-  revealEls.forEach(el=>io.observe(el));
 </script>
 
 </body>
